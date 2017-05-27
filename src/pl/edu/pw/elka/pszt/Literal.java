@@ -8,10 +8,18 @@ import java.util.Arrays;
  * Created by erxyi on 25.05.2017.
  */
 public class Literal {
-    private LiteralType type;
-    private String[] argumentValues;
+
+
+    LiteralType type;
+    String[] argumentValues;
     private boolean negated;
 
+    public Literal(Literal l)
+    {
+        type = l.type;
+        argumentValues = l.argumentValues.clone();
+        negated = l.negated;
+    }
 
     public Literal(LiteralType type) {
         this.type = type;
