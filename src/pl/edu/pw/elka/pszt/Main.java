@@ -11,14 +11,19 @@ public class Main {
         ArgumentType firstType = ad.createNewArgument("x");
         ArgumentType secondType = ad.createNewArgument("y");
 
-        PredicateType firstPredicateType = new PredicateType("F");
-        firstPredicateType.addArgument(firstType);
-        firstPredicateType.addArgument(secondType);
+        LiteralType firstLiteralType = new LiteralType("F");
+        firstLiteralType.addArgument(firstType);
+        firstLiteralType.addArgument(secondType);
 
-        System.out.println(firstPredicateType);
+        System.out.println(firstLiteralType);
 
-        Predicate p = new Predicate(firstPredicateType);
+        Literal p = new Literal(firstLiteralType);
         p.setArgumentValue(firstType, "RAZ");
         System.out.println(p);
+
+        Clause xyz = new Clause();
+        xyz.addLiteral(p);
+        xyz.addLiteral(p);
+        System.out.println(xyz);
     }
 }
