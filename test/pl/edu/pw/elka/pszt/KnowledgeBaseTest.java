@@ -92,5 +92,32 @@ class KnowledgeBaseTest {
         Assertions.assertEquals(true, kb.clauses.contains(resultClause));
     }
 
+    @Test
+    void isContradictory()
+    {
+        Clause clause = new Clause(false);
+        KnowledgeBase kb = new KnowledgeBase(clause);
+        Assertions.assertEquals(true, kb.isContradictory());
+    }
+
+    @Test
+    void isContradictoryAnotherExample()
+    {
+        Literal test1, test2;
+        test1 = new Literal(f1);
+        test2 = new Literal(f1);
+        test2.negate();
+        test1.setArgumentValue(a, "test");
+
+        Clause testClause1, testClause2;
+        testClause1 = new Clause(test1);
+        testClause2 = new Clause(test2);
+
+        KnowledgeBase kb = new KnowledgeBase(testClause1, testClause2);
+
+
+        Assertions.assertEquals(true, kb.isContradictory());
+    }
+
 
 }

@@ -2,8 +2,9 @@ package pl.edu.pw.elka.pszt;
 
 import pl.edu.pw.elka.pszt.Arguments.ArgumentType;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by erxyi on 27.05.2017.
@@ -17,6 +18,12 @@ public class KnowledgeBase {
 
     public KnowledgeBase() {
         clauses = new HashSet<>();
+    }
+    public KnowledgeBase(Clause... manyClauses)
+    {
+        clauses = new HashSet<>();
+        //Collections.addAll(clauses, manyClauses);
+        clauses.addAll(Arrays.asList(manyClauses));
     }
 
     public void AddClause(Clause c)
@@ -109,8 +116,40 @@ public class KnowledgeBase {
 
         return sb.toString();
     }
-    //TODO: to jest ewidentnie niedokończone
+    //TODO: to jest ewidentnie niedokoczone
     public boolean isContradictory()
+    {
+        if(clauses.isEmpty())
+            throw new RuntimeException("KnowledgeBase is empty!");
+
+        if(clauses.parallelStream().anyMatch(c -> (!c.getAtomValue())&&(c.isAtom())))
+            return true;
+
+        List<Clause> atomList = clauses.parallelStream()
+                .filter(getAtoms())
+                .distinct()
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < atomList.size(); i++) {
+            Literal firstAtom = atomList.get(i).literals.get(0);
+            if(atomList.parallelStream()
+                    .map(clause -> clause.literals.get(0))
+                    .anyMatch(
+                            literal -> literal.isUnifiable(firstAtom) && (literal.isNegated()!=firstAtom.isNegated()) && literal.type.equals(firstAtom.type)
+                    ))
+                return true;
+        }
+
+
+
+        return false;
+    }
+
+    private Predicate<Clause> getAtoms() {
+        return c -> c.literals.size()==1;
+    }
+
+    public boolean isContradictory2()
     {
         ArrayList<Clause> c = new ArrayList<>(clauses);
         for (int i = 0; i < c.size()-1; i++) {

@@ -1,6 +1,7 @@
 package pl.edu.pw.elka.pszt;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,21 +10,18 @@ import java.util.Set;
  */
 public class Clause {
     ArrayList<Literal> literals;
-    boolean isAtom;
-    boolean atomValue;
+    private boolean isAtom;
+    private boolean atomValue;
 
     public boolean isAtom() {
         return isAtom;
     }
-
     public void setAtom(boolean atom) {
         isAtom = atom;
     }
-
     public boolean getAtomValue() {
         return atomValue;
     }
-
     public void setAtomValue(boolean atomValue) {
         this.atomValue = atomValue;
     }
@@ -31,18 +29,38 @@ public class Clause {
 
     public Clause(ArrayList<Literal> literals) {
         this.literals = literals;
+        this.isAtom = false;
+        this.atomValue = false;
     }
 
     public Clause() {
         this.literals = new ArrayList<>();
+        this.isAtom = false;
+        this.atomValue = false;
+    }
+
+    public Clause(Literal... manyLiterals) {
+        this.isAtom = false;
+        this.atomValue = false;
+        this.literals = new ArrayList<>();
+        literals.addAll(Arrays.asList(manyLiterals));
+
     }
 
     public Clause(Clause c) {
+        this.isAtom = c.isAtom;
+        this.atomValue = c.atomValue;
         this.literals = new ArrayList<>();
         for(Literal l : c.literals)
         {
             this.literals.add(new Literal(l));
         }
+    }
+
+    public Clause(boolean atomValue)
+    {
+        isAtom = true;
+        atomValue = false;
     }
 
     public void addLiteral(Literal l)
@@ -53,14 +71,23 @@ public class Clause {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if(literals.size()==0)
-            sb.append("(empty clause)");
-        else
-            for (int i = 0; i < literals.size(); i++) {
-                sb.append(literals.get(i).toString());
-                if(i  < literals.size()-1)
-                    sb.append(" v ");
-            }
+        if(isAtom)
+        {
+            sb.append("(Atom: ");
+            sb.append(atomValue);
+            sb.append(")");
+        }
+        else {
+            if (literals.size() == 0)
+                sb.append("(empty clause)");
+            else
+                for (int i = 0; i < literals.size(); i++) {
+                    sb.append(literals.get(i).toString());
+                    if (i < literals.size() - 1)
+                        sb.append(" v ");
+                }
+
+        }
         return sb.toString();
     }
 
@@ -112,6 +139,10 @@ public class Clause {
 
     public void simplify() {
         removeDuplicates();
+        removeNullLiterals();
+    }
+
+    private void removeNullLiterals() {
         ArrayList<Literal> copy = new ArrayList<>(literals);
         for (int i = 0; i < literals.size(); i++) {
             Literal negatedLiteral = new Literal(literals.get(i));
@@ -121,8 +152,11 @@ public class Clause {
                 copy.remove(literals.get(i));
                 copy.remove(negatedLiteral);
             }
-            if(copy.size()==0)
+            if(copy.size()==0) {
+                isAtom = true;
+                atomValue = true;
                 break;
+            }
         }
         literals = copy;
     }
@@ -143,11 +177,16 @@ public class Clause {
 
         Clause clause = (Clause) o;
 
-        return literals.equals(clause.literals);
+        if (isAtom != clause.isAtom) return false;
+        if (atomValue != clause.atomValue) return false;
+        return literals != null ? literals.equals(clause.literals) : clause.literals == null;
     }
 
     @Override
     public int hashCode() {
-        return literals.hashCode();
+        int result = literals != null ? literals.hashCode() : 0;
+        result = 31 * result + (isAtom ? 1 : 0);
+        result = 31 * result + (atomValue ? 1 : 0);
+        return result;
     }
 }
