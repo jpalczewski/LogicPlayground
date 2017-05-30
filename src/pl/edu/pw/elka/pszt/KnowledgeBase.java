@@ -2,6 +2,7 @@ package pl.edu.pw.elka.pszt;
 
 import pl.edu.pw.elka.pszt.Arguments.ArgumentType;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -71,5 +72,65 @@ public class KnowledgeBase {
             clauses.addAll(newClauses);
             //newClauses.clear();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        KnowledgeBase that = (KnowledgeBase) o;
+
+        return clauses.equals(that.clauses);
+    }
+
+    @Override
+    public int hashCode() {
+        return clauses.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if(clauses.isEmpty())
+            sb.append("(empty KB)");
+        else
+        {
+            sb.append("( ");
+            ArrayList<Clause> cl = new ArrayList<>(clauses);
+            for (int i = 0; i < cl.size(); i++) {
+                sb.append(cl.get(i));
+                if(i <  cl.size()-1)
+                    sb.append(" ) ^ ( ");
+
+            }
+            sb.append(" )");
+        }
+
+        return sb.toString();
+    }
+    //TODO: to jest ewidentnie niedokończone
+    public boolean isContradictory()
+    {
+        ArrayList<Clause> c = new ArrayList<>(clauses);
+        for (int i = 0; i < c.size()-1; i++) {
+            Clause clause = c.get(i);
+            if(clause.isAtom() && (!clause.getAtomValue()))
+                return false;
+            if(clause.literals.size()!=1)
+                continue;
+            //Mamy atom C, szukamy atomu ~C
+            for (int j = i+1; j < c.size(); j++) {
+                Clause clause2 = c.get(j);
+                if(clause2.isAtom() && (!clause2.getAtomValue()))
+                    return false;
+                if(clause.literals.size()!=1)
+                    continue;
+
+
+            }
+        }
+
+        return false;
     }
 }

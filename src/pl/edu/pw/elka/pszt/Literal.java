@@ -99,6 +99,11 @@ public class Literal {
         return true;
     }
 
+    public boolean isNegated()
+    {
+        return this.negated;
+    }
+
     public Literal Unify(Literal l)
     {
         if(!l.isUnifiable(this))
