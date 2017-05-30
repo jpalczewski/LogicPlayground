@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import pl.edu.pw.elka.pszt.Arguments.ArgumentDictionary;
 import pl.edu.pw.elka.pszt.Arguments.ArgumentType;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Created by erxyi on 27.05.2017.
  */

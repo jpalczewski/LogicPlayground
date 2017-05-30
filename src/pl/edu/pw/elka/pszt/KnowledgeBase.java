@@ -3,7 +3,6 @@ package pl.edu.pw.elka.pszt;
 import pl.edu.pw.elka.pszt.Arguments.ArgumentType;
 
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by erxyi on 27.05.2017.
