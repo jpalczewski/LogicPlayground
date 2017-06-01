@@ -25,8 +25,8 @@ public class Clause {
     public void setAtomValue(boolean atomValue) {
         this.atomValue = atomValue;
     }
-
-
+    public int getLiteralsSize() {return literals.size();}
+    public boolean containsClause(Clause c){return literals.contains(c);}
     public Clause(ArrayList<Literal> literals) {
         this.literals = literals;
         this.isAtom = false;

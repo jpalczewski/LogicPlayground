@@ -9,6 +9,10 @@ import java.util.ArrayList;
  */
 public abstract class Strategy {
 
+    public ArrayList<KnowledgeBase> getSteps() {
+        return steps;
+    }
+
     ArrayList<KnowledgeBase> steps;
 
     public Strategy(KnowledgeBase knownFacts) {

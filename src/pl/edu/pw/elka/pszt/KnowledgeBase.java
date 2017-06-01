@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * Created by erxyi on 27.05.2017.
  */
 public class KnowledgeBase {
-    HashSet<Clause> clauses;
+    public HashSet<Clause> clauses;
 
     public KnowledgeBase(HashSet<Clause> clauses) {
         this.clauses = clauses;
@@ -24,6 +24,10 @@ public class KnowledgeBase {
         clauses = new HashSet<>();
         //Collections.addAll(clauses, manyClauses);
         clauses.addAll(Arrays.asList(manyClauses));
+    }
+
+    public KnowledgeBase(KnowledgeBase lastKB) {
+        clauses = new HashSet<>(lastKB.clauses);
     }
 
     public void AddClause(Clause c)

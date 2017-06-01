@@ -73,6 +73,7 @@ class KnowledgeBaseTest {
         Literal r2 = new Literal(lb);
         Literal r3 = new Literal(la);
         Literal r4 = new Literal(lc);
+        r3.negate();
         r3.setArgumentValue(x, "Mn");
         r4.setArgumentValue(x, "Mn");
 
@@ -83,6 +84,8 @@ class KnowledgeBaseTest {
         c1.addLiteral(r2);
         c2.addLiteral(r3);
         c2.addLiteral(r4);
+
+        Clause c3 = c1.resolve(c2);
 
         KnowledgeBase kb = new KnowledgeBase();
         kb.AddClause(c1);
