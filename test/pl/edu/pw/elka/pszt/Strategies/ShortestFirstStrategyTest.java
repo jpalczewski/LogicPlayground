@@ -12,7 +12,7 @@ import pl.edu.pw.elka.pszt.LiteralType;
 /**
  * Created by erxyi on 01.06.2017.
  */
-class BreadthFirstStrategyTest {
+class ShortestFirstStrategyTest {
     @Test
     void solve() {
         ArgumentDictionary ad = new ArgumentDictionary();
@@ -36,9 +36,10 @@ class BreadthFirstStrategyTest {
         KnowledgeBase kb = new KnowledgeBase(c1,c2,c3);
         kb.substitute();
         Assertions.assertEquals(kb.isContradictory(), false);
-        BreadthFirstStrategy bfs = new BreadthFirstStrategy(kb);
-        bfs.runOneStep();
-        Assertions.assertEquals(bfs.steps.get(1).isContradictory(), true);
+        //BreadthFirstStrategy bfs = new BreadthFirstStrategy(kb);
+        ShortestFirstStrategy sfs = new ShortestFirstStrategy(kb);
+        sfs.solve();
+        Assertions.assertEquals(sfs.isLastStepContradictory(), true);
     }
 
     @Test
@@ -67,9 +68,8 @@ class BreadthFirstStrategyTest {
         Clause c4 = new Clause(la2);
         KnowledgeBase kb = new KnowledgeBase(c1,c2,c3,c4);
         Assertions.assertEquals(kb.isContradictory(), false);
-        BreadthFirstStrategy bfs = new BreadthFirstStrategy(kb);
-        bfs.solve();
-        Assertions.assertEquals(true, bfs.steps.get(bfs.steps.size()-1).isContradictory());
+        ShortestFirstStrategy sfs = new ShortestFirstStrategy(kb);
+        sfs.solve();
+        Assertions.assertEquals(true, sfs.isLastStepContradictory());
     }
-
 }

@@ -25,7 +25,7 @@ public class Clause {
     public void setAtomValue(boolean atomValue) {
         this.atomValue = atomValue;
     }
-    public int getLiteralsSize() {return literals.size();}
+    public Integer getLiteralsSize() {return literals.size();}
     public boolean containsClause(Clause c){return literals.contains(c);}
     public Clause(ArrayList<Literal> literals) {
         this.literals = literals;
@@ -127,6 +127,11 @@ public class Clause {
             right.literals.remove(rightPtr);
             result.concatenate(right);
             result.simplify();
+            if(result.getLiteralsSize()==0)
+            {
+                result.setAtom(true);
+                result.setAtomValue(false);
+            }
         }
         else
         {

@@ -5,12 +5,14 @@ import pl.edu.pw.elka.pszt.KnowledgeBase;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by erxyi on 30.05.2017.
  */
-public class BreadthFirstStrategy extends Strategy {
-    public BreadthFirstStrategy(KnowledgeBase knownFacts) {
+public class ShortestFirstStrategy extends Strategy {
+    public ShortestFirstStrategy(KnowledgeBase knownFacts) {
         super(knownFacts);
     }
 
@@ -29,22 +31,14 @@ public class BreadthFirstStrategy extends Strategy {
                         added.add(result);
             }
         }
-        KnowledgeBase newKB = new KnowledgeBase(lastKB);
-        newKB.clauses.addAll(added);
-        steps.add(newKB);
-
+        if(!added.isEmpty()) {
+            KnowledgeBase newKB = new KnowledgeBase(lastKB);
+            int shortestProduced = added.stream().map(Clause::getLiteralsSize).min(Integer::compare).get();
+            List<Clause> minimizedList = added.stream().filter(clause -> clause.getLiteralsSize() == shortestProduced).collect(Collectors.toList());
+            newKB.clauses.addAll(minimizedList);
+            newKB.substitute();
+            steps.add(newKB);
+        }
         return added.size();
-    }
-
-    @Override
-    public void solve() {
-        int addedInLastStep = runOneStep();
-        while(
-                        !steps.get(steps.size()-1).isContradictory()
-                    ||
-                        addedInLastStep == 0
-                )
-            addedInLastStep = runOneStep();
-
     }
 }

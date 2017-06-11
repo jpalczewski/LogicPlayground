@@ -3,6 +3,7 @@ package pl.edu.pw.elka.pszt;
 import pl.edu.pw.elka.pszt.Arguments.ArgumentType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by erxyi on 25.05.2017.
@@ -11,6 +12,12 @@ public class LiteralType {
     String name;
     ArrayList<ArgumentType> arguments;
 
+    public LiteralType(String name, ArgumentType... argumentTypes)
+    {
+        this.name = name;
+        arguments = new ArrayList<>();
+        arguments.addAll(Arrays.asList(argumentTypes));
+    }
     public LiteralType(String name, ArrayList<ArgumentType> arguments) {
         this.name = name;
         this.arguments = arguments;
