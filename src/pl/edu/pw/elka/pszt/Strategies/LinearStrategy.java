@@ -19,6 +19,7 @@ public class LinearStrategy extends Strategy {
         if(hipotesis == null)
             throw new RuntimeException("Linear strategy failed - hipotesis not set!");
 
+
         ArrayList<Clause> list = new ArrayList<>(steps.get(steps.size()-1).clauses);
         for (int i = 0; i < list.size(); i++) {
             Clause step = hipotesis.resolve(list.get(i));
@@ -31,6 +32,9 @@ public class LinearStrategy extends Strategy {
 
                 if((step.isAtom() && !step.getAtomValue()) || !step.isAtom())
                 {
+                    step.setLeftAncestor(list.get(i));
+                    step.setRightAncestor(hipotesis);
+
                     list.add(step);
                     hipotesis = step;
                     steps.add(new KnowledgeBase(new HashSet<>(list)));

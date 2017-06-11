@@ -9,9 +9,23 @@ import java.util.Set;
  * Created by erxyi on 27.05.2017.
  */
 public class Clause {
+    public ArrayList<Literal> getLiterals() {
+        return literals;
+    }
+
     ArrayList<Literal> literals;
     private boolean isAtom;
     private boolean atomValue;
+
+    public boolean isPartOfSolution() {
+        return partOfSolution;
+    }
+
+    private boolean partOfSolution;
+
+    private Clause leftAncestor;
+    private Clause rightAncestor;
+
 
     public boolean isAtom() {
         return isAtom;
@@ -51,6 +65,8 @@ public class Clause {
         this.isAtom = c.isAtom;
         this.atomValue = c.atomValue;
         this.literals = new ArrayList<>();
+        this.leftAncestor = c.leftAncestor;
+        this.rightAncestor = c.rightAncestor;
         for(Literal l : c.literals)
         {
             this.literals.add(new Literal(l));
@@ -193,5 +209,25 @@ public class Clause {
         result = 31 * result + (isAtom ? 1 : 0);
         result = 31 * result + (atomValue ? 1 : 0);
         return result;
+    }
+
+    public void setPartOfSolution(boolean partOfSolution) {
+        this.partOfSolution = partOfSolution;
+    }
+
+    public Clause getLeftAncestor() {
+        return leftAncestor;
+    }
+
+    public void setLeftAncestor(Clause leftAncestor) {
+        this.leftAncestor = leftAncestor;
+    }
+
+    public Clause getRightAncestor() {
+        return rightAncestor;
+    }
+
+    public void setRightAncestor(Clause rightAncestor) {
+        this.rightAncestor = rightAncestor;
     }
 }

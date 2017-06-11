@@ -112,7 +112,7 @@ public class KnowledgeBase {
             for (int i = 0; i < cl.size(); i++) {
                 sb.append(cl.get(i));
                 if(i <  cl.size()-1)
-                    sb.append(" ) ^ ( ");
+                    sb.append(" ] ^ [ ");
 
             }
             sb.append(" ]");
@@ -120,7 +120,7 @@ public class KnowledgeBase {
 
         return sb.toString();
     }
-    //TODO: to jest ewidentnie niedokoczone
+
     public boolean isContradictory()
     {
         if(clauses.isEmpty())

@@ -28,7 +28,12 @@ public class ShortestFirstStrategy extends Strategy {
                 Clause result = initialList.get(i).resolve(initialList.get(j));
                 if((result.getLiteralsSize()==0 && result.isAtom()) || result.getLiteralsSize()>0)
                     if(!lastKB.clauses.contains(result))
+                    {
+                        result.setLeftAncestor(initialList.get(i));
+                        result.setRightAncestor(initialList.get(j));
+
                         added.add(result);
+                    }
             }
         }
         if(!added.isEmpty()) {

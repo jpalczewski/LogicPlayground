@@ -10,6 +10,10 @@ import java.util.Arrays;
 public class Literal {
 
 
+    public LiteralType getType() {
+        return type;
+    }
+
     LiteralType type;
     String[] argumentValues;
     private boolean negated;
